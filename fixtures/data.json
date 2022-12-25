@@ -1,0 +1,122 @@
+[
+  {
+    "model": "tasks.list",
+    "pk": 1,
+    "fields": { "title": "personal", "user": 1 }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 1,
+    "fields": {
+      "title": "normal task",
+      "due_date": "2022-11-15T00:20:50.230Z",
+      "finished_date": null,
+      "start_date": null,
+      "notes": null,
+      "user": 1,
+      "list": 1,
+      "is_super": false,
+      "super_task": null
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 2,
+    "fields": {
+      "title": "super task",
+      "due_date": "2022-11-15T00:21:57.643Z",
+      "finished_date": null,
+      "start_date": null,
+      "notes": null,
+      "user": 1,
+      "list": 1,
+      "is_super": true,
+      "super_task": null
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 3,
+    "fields": {
+      "title": "sub task",
+      "due_date": "2022-11-15T00:23:42.126Z",
+      "finished_date": null,
+      "start_date": null,
+      "notes": null,
+      "user": 1,
+      "list": 1,
+      "is_super": false,
+      "super_task": 2
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 4,
+    "fields": {
+      "title": "sub task",
+      "due_date": "2022-11-15T00:24:37.019Z",
+      "finished_date": null,
+      "start_date": null,
+      "notes": null,
+      "user": 1,
+      "list": 1,
+      "is_super": false,
+      "super_task": 2
+    }
+  },
+  {
+    "model": "tasks.repetitivetask",
+    "pk": 1,
+    "fields": {
+      "title": "normal task",
+      "notes": null,
+      "user": 1,
+      "list": 1,
+      "repetition": "1dearly",
+      "is_super": false,
+      "super_task": null
+    }
+  },
+  {
+    "model": "tasks.repetitivetask",
+    "pk": 2,
+    "fields": {
+      "title": "super task",
+      "notes": null,
+      "user": 1,
+      "list": 1,
+      "repetition": "1dearly",
+      "is_super": true,
+      "super_task": null
+    }
+  },
+  {
+    "model": "tasks.repetitivetask",
+    "pk": 3,
+    "fields": {
+      "title": "sub task",
+      "notes": null,
+      "user": 1,
+      "list": 1,
+      "repetition": "1dearly",
+      "is_super": false,
+      "super_task": 2
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$91ZdnbSth2M2J788fG7TBe$59OqMx1dOfFCEylDNwUK136eGtPoGdZFKzVjxNilBi8=",
+      "last_login": null,
+      "is_superuser": false,
+      "name": "a",
+      "email": "a@gmail.com",
+      "start_date": "2022-11-14T00:18:02.736Z",
+      "is_staff": false,
+      "is_active": false,
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]
