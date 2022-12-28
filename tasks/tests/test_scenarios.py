@@ -1,36 +1,37 @@
 import pytest
 from django.urls import reverse
+from tasks.models import *
 
 
-@pytest.mark.parametrize(
-    "title, due_date, finished_date, start_date, notes, list, is_super, super_task_id",
-     [ 
-        ("cook a meal", "", "", "", "", "1", )
-     ]
-)
 def test_create_normal_task(db, new_authenticated_client_user, new_list):
     client, user = new_authenticated_client_user()
-    new_list(user)
+    list = new_list(user)
 
-    client.post(reverse("create_taks"), {})
+    client.post(reverse("create_taks"), {
+        "title": "new task",
+        "notes": "some notes",
+        "list": list.id
+    })
 
-
-
-def test_create_super_task():
-    pass
-
-
-def test_create_normal_repetitive_task():
-    pass
+    assert Task.objects.count() == 1
 
 
-def test_create_super_repetitive_task():
-    pass
+
+# def test_create_super_task():
+#     pass
 
 
-def test_finish_task():
-    pass
+# def test_create_normal_repetitive_task():
+#     pass
 
 
-def test_finish_repetitive_task():
-    pass
+# def test_create_super_repetitive_task():
+#     pass
+
+
+# def test_finish_task():
+#     pass
+
+
+# def test_finish_repetitive_task():
+#     pass
