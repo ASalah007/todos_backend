@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     "rest_framework",
     "django_extensions",
     "django_celery_beat",
@@ -34,6 +35,8 @@ INSTALLED_APPS = [
     "corsheaders",
     "tasks",
     "users",
+    "groups",
+    "attachments",
 ]
 
 MIDDLEWARE = [

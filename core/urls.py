@@ -21,6 +21,7 @@ urlpatterns = [
                 ),
                 path("user/", include("users.urls")),
                 path("task/", include("tasks.urls")),
+                path("group/", include("groups.urls")),
             ]
         ),
     ),
