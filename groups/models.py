@@ -6,11 +6,10 @@ from django.utils.translation import gettext_lazy as _
 
 class Group(models.Model):
     title = models.CharField(max_length=32)
-    users = models.ManyToManyField(User, through="Membership", through_fields=("group", "user")) 
+    users = models.ManyToManyField(User, through="Membership", through_fields=("group", "user"))
 
     def __str__(self):
         return self.title
-  
 
 
 class Membership(models.Model):

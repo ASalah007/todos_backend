@@ -1,6 +1,7 @@
 from django.db import models
+
+from groups.models import Group
 from users.models import User
-from django.core.mail.backends.smtp import EmailBackend
 
 
 class List(models.Model):
@@ -11,35 +12,16 @@ class List(models.Model):
         return self.title
 
 
-class Task(models.Model):
+class TaskAbstract(models.Model):
     title = models.CharField(max_length=64)
-    due_date = models.DateTimeField(null=True, blank=True)
-    finished_date = models.DateTimeField(null=True, blank=True)
-    start_date = models.DateField(null=True, blank=True)
-    notes = models.TextField(blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    list = models.ForeignKey(List, on_delete=models.CASCADE)
-    is_super = models.BooleanField(default=False)
-    super_task = models.ForeignKey(
-        "Task",
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
-    )
-
-    def __str__(self):
-        return self.title
-
-
-class RepetitiveTaskInfo(models.Model):
-    title = models.CharField(max_length=64)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    list = models.ForeignKey(List, on_delete=models.CASCADE)
-    repetition = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    list = models.ForeignKey(List, on_delete=models.CASCADE, null=True, blank=True)
     is_super = models.BooleanField(default=False)
     notes = models.TextField(blank=True, null=True)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True)
+    assigned_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name="assigned_%(class)ss")
     super_task = models.ForeignKey(
-        "RepetitiveTaskInfo",
+        "self",
         on_delete=models.CASCADE,
         blank=True,
         null=True,
@@ -48,6 +30,19 @@ class RepetitiveTaskInfo(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta: 
+        abstract = True
+
+
+class Task(TaskAbstract, models.Model):
+    due_date = models.DateTimeField(null=True, blank=True)
+    finished_date = models.DateTimeField(null=True, blank=True)
+    start_date = models.DateField(null=True, blank=True)
+
+
+class RepetitiveTaskInfo(TaskAbstract):
+    repetition = models.TextField()
 
 
 class RepetitiveTask(models.Model):

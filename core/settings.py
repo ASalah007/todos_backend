@@ -1,6 +1,7 @@
 from pathlib import Path
 import environ
 from celery.schedules import crontab
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -123,6 +124,12 @@ STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles/"
 STATICFILES_DIRS = [BASE_DIR / "static/"]
 
+# Media files 
+
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "mediafiles/"
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -171,4 +178,9 @@ CELERY_BEAT_SCHEDULE = {
     #     "task": "tasks.tasks.task_generate_repetitive_tasks",
     #     "schedule": crontab(minute="0", hour="0", day_of_month="1"),
     # },
+}
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
 }
