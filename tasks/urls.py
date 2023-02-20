@@ -21,5 +21,6 @@ urlpatterns = [
         RepetitiveTaskEditView.as_view(),
         name="repetitive_task_details",
     ),
-    path("list/create", ListCreateView.as_view(), name="create_list"),
+    path("list/create", ListView.as_view(), name="create_list"),
+    path("lists", ListView.as_view(), name="list_lists"),
 ]

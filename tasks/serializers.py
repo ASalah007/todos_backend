@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import *
+from attachments.models import Attachment
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -72,3 +73,53 @@ class RepTaskInfoSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField(max_length=64)
     notes = serializers.CharField(max_length=2048)
+
+
+class TaskCreateSerializer(serializers.ModelSerializer):
+    sub_tasks = TaskSerializer(many=True, required=False)
+    files = serializers.ListField(child=serializers.FileField(), required=False)
+    assign_to = serializers.EmailField(required=False)
+    class Meta:
+        model = Task
+        fields = [
+            "title",
+            "list", 
+            "group", 
+            "notes", 
+            "due_date", 
+            "start_date", 
+            "sub_tasks", 
+            "assign_to", 
+            "files",
+        ]
+    
+    def create(self, validated_data):
+        request = self.context.get("request")
+        assign_to = validated_data.pop("assign_to", None)
+        group = validated_data.pop("group", None)
+        if assign_to:
+            try: 
+                user = User.objects.get(email=assign_to)
+                validated_data["user"] = user
+                validated_data["assigned_by"] = request.user
+            except User.DoesNotExist: 
+                validated_data["user"] = request.user
+        else:
+            validated_data["user"] = request.user
+
+        sub_tasks = validated_data.pop("sub_tasks", [])
+        files = validated_data.pop("files", [])
+
+        task = super().create(validated_data)
+        for file in files:
+            file["task"] = task 
+            file["group"] = group
+            file["owner"] = request.user
+            Attachment.objects.create(file)
+
+        for sub_task in sub_tasks:
+            sub_task["super_task"] = task
+            Task.objects.create(sub_task)
+
+        print(task)
+        return task

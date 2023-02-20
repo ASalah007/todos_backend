@@ -38,7 +38,7 @@ class TaskAbstract(models.Model):
 class Task(TaskAbstract, models.Model):
     due_date = models.DateTimeField(null=True, blank=True)
     finished_date = models.DateTimeField(null=True, blank=True)
-    start_date = models.DateField(null=True, blank=True)
+    start_date = models.DateTimeField(null=True, blank=True)
 
 
 class RepetitiveTaskInfo(TaskAbstract):

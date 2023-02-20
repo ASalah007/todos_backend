@@ -21,9 +21,9 @@ class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
 
 
-class TaskCreateView(generics.CreateAPIView):
-    serializer_class = TaskSerializer
-    permission_classes = [IsAuthenticated]
+# class TaskCreateView(generics.CreateAPIView):
+#     serializer_class = TaskSerializer
+#     permission_classes = [IsAuthenticated]
 
 class RepetitiveTaskInfoDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = RepetitiveTaskInfo.objects.all()
@@ -72,8 +72,10 @@ class RepetitiveTaskEditView(generics.RetrieveUpdateAPIView):
         return self.partial_update(request, *args, **kwargs)
 
 
-class ListCreateView(generics.CreateAPIView):
-    queryset = List.objects.all()
+class ListView(generics.ListCreateAPIView):
+    
+    def get_queryset(self):
+        return self.request.user.list_set
     serializer_class = ListSerializer
     permission_classes = [IsAuthenticated]
 
@@ -167,3 +169,6 @@ class UserAllTaskslView(APIView):
         print(result)
         return Response(result)
 
+class TaskCreateView(generics.CreateAPIView):
+    serializer_class = TaskCreateSerializer
+    permission_classes = [IsAuthenticated]
