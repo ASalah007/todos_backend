@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import *
 from attachments.models import Attachment
+from django.contrib.auth import get_user_model
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -99,10 +100,11 @@ class TaskCreateSerializer(serializers.ModelSerializer):
         group = validated_data.pop("group", None)
         if assign_to:
             try: 
-                user = User.objects.get(email=assign_to)
+                user = get_user_model().objects.get(email=assign_to)
                 validated_data["user"] = user
+                validated_data["list"] = List.objects.get(id=user.assigned_list_id)
                 validated_data["assigned_by"] = request.user
-            except User.DoesNotExist: 
+            except get_user_model().DoesNotExist: 
                 validated_data["user"] = request.user
         else:
             validated_data["user"] = request.user
@@ -121,5 +123,5 @@ class TaskCreateSerializer(serializers.ModelSerializer):
             sub_task["super_task"] = task
             Task.objects.create(sub_task)
 
-        print(task)
+        print(task.list)
         return task

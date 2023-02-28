@@ -21,10 +21,6 @@ class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
 
 
-# class TaskCreateView(generics.CreateAPIView):
-#     serializer_class = TaskSerializer
-#     permission_classes = [IsAuthenticated]
-
 class RepetitiveTaskInfoDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = RepetitiveTaskInfo.objects.all()
     serializer_class = RepetitiveTaskInfoSerializer
@@ -166,7 +162,6 @@ class UserAllTaskslView(APIView):
             lst['id'] = id
             result.append(lst)
 
-        print(result)
         return Response(result)
 
 class TaskCreateView(generics.CreateAPIView):

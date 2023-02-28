@@ -1,12 +1,12 @@
 from django.db import models
 
 from groups.models import Group
-from users.models import User
+from django.contrib.auth import get_user_model
 
 
 class List(models.Model):
     title = models.CharField(max_length=50)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -14,12 +14,12 @@ class List(models.Model):
 
 class TaskAbstract(models.Model):
     title = models.CharField(max_length=64)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True, blank=True)
     list = models.ForeignKey(List, on_delete=models.CASCADE, null=True, blank=True)
     is_super = models.BooleanField(default=False)
     notes = models.TextField(blank=True, null=True)
     group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True)
-    assigned_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name="assigned_%(class)ss")
+    assigned_by = models.ForeignKey(get_user_model(), null=True, blank=True, on_delete=models.SET_NULL, related_name="assigned_%(class)ss")
     super_task = models.ForeignKey(
         "self",
         on_delete=models.CASCADE,
